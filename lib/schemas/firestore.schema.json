@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Firestore Collections Schema",
+  "type": "object",
+  "definitions": {
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique user identifier"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "User's full name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User's email address"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "teacher", "student"],
+          "description": "User's role in the system"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive"],
+          "description": "User account status"
+        },
+        "departmentId": {
+          "type": ["string", "null"],
+          "description": "Department ID reference"
+        },
+        "createdAt": {
+          "type": "object",
+          "description": "Firestore Timestamp"
+        },
+        "updatedAt": {
+          "type": "object",
+          "description": "Firestore Timestamp"
+        },
+        "photoURL": {
+          "type": ["string", "null"],
+          "description": "User's profile picture URL"
+        }
+      },
+      "required": ["id", "displayName", "email", "role", "status", "createdAt", "updatedAt"],
+      "additionalProperties": false
+    },
+    "schedule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique schedule identifier"
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Reference to course"
+        },
+        "teacherId": {
+          "type": "string",
+          "description": "Reference to teacher user"
+        },
+        "roomId": {
+          "type": "string",
+          "description": "Reference to room"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "description": "Day of week"
+        },
+        "startTime": {
+          "type": "string",
+          "pattern": "^([0-1][0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "Start time in HH:MM format"
+        },
+        "endTime": {
+          "type": "string",
+          "pattern": "^([0-1][0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "End time in HH:MM format"
+        },
+        "semester": {
+          "type": "string",
+          "description": "Semester information"
+        }
+      },
+      "required": ["id", "courseId", "teacherId", "roomId", "dayOfWeek", "startTime", "endTime", "semester"],
+      "additionalProperties": false
+    },
+    "course": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique course identifier"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Course name"
+        },
+        "department": {
+          "type": "string",
+          "description": "Department name"
+        },
+        "credits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6,
+          "description": "Number of credits"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum student capacity"
+        }
+      },
+      "required": ["id", "name", "department", "credits", "capacity"],
+      "additionalProperties": false
+    },
+    "room": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique room identifier"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Room name or number"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Room capacity"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["lecture", "laboratory", "seminar"],
+          "description": "Room type"
+        },
+        "building": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Building name"
+        }
+      },
+      "required": ["id", "name", "capacity", "type", "building"],
+      "additionalProperties": false
+    }
+  }
+}
